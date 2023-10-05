@@ -1,8 +1,8 @@
-import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 import axios from "../config/axios";
 
 export const useTaskStore = defineStore("taskStore", () => {
+
   /**
    * Function that creates a task
    * @param {Object} data - Object with:
@@ -55,7 +55,7 @@ export const useTaskStore = defineStore("taskStore", () => {
         `/api/tasks/status/${status}/tables/${idTable}`
       );
 
-      return result.data.success;
+      return result.data.resource;
     } catch (error) {
       throw error;
     }
@@ -73,7 +73,7 @@ export const useTaskStore = defineStore("taskStore", () => {
         `/api/tasks/count/status/${status}/tables/${idTable}`
       );
 
-      return result.data.success;
+      return result.data.resource;
     } catch (error) {
       throw error;
     }
@@ -124,7 +124,7 @@ export const useTaskStore = defineStore("taskStore", () => {
   }
 
   /**
-   * Function that deletes a specific table
+   * Function that deletes all tasks of table by its status
    * @param {Number} status - Task's status
    * @param {Number} idTable - Table's id
    * @returns {Object} A object with a message or the resource requested
@@ -150,6 +150,6 @@ export const useTaskStore = defineStore("taskStore", () => {
     getTaskByIdAndIdTable,
     getTasksByStatusAndIdTable,
     getTasksCountByStatusAndIdTable,
-    updateTaskByIdAndIdTable,
+    updateTaskByIdAndIdTable
   };
 });

@@ -32,7 +32,7 @@ export const useTableStore = defineStore("tableStore", () => {
     try {
       const result = await axios.get(`/api/tables/${id}`);
 
-      return result.data.success;
+      return result.data.resource;
     } catch (error) {
       throw error;
     }
@@ -48,7 +48,7 @@ export const useTableStore = defineStore("tableStore", () => {
     try {
       const result = await axios.get(`/api/tables`);
 
-      return result.data.success;
+      return result.data.resource;
     } catch (error) {
       throw error;
     }

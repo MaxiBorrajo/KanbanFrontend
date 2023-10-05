@@ -7,7 +7,14 @@
 
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
-import FooterComponent from "./components/FooterComponent.vue";
+import { useTheme } from "vuetify";
+import { onBeforeMount } from "vue";
+import FooterComponent from "@/components/FooterComponent.vue";
+const theme = useTheme();
+
+onBeforeMount(()=>{
+  theme.global.name.value = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')).theme : 'light'
+})
 </script>
 
 <style lang="scss">

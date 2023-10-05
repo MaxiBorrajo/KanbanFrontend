@@ -36,21 +36,21 @@ const vuetify = createVuetify({
       light: {
         dark: false,
         colors: {
-          background_color: "#ffffff",
+          backgroundColor: "#ffffff",
           card: "#e1e2e3",
           text: "#1a1919",
-          attention: "#1a1919",
-          soft_attention: "#b5b5b5",
+          attention: "#662d91",
+          softAttention: "#9100ff",
         },
       },
       dark: {
         dark: false,
         colors: {
-          background_color: "#1a1919",
+          backgroundColor: "#1a1919",
           card: "#212121",
           text: "#ffffff",
-          attention: "#ffffff",
-          soft_attention: "#757575",
+          attention: "#8b3fc4",
+          softAttention: "#662d91",
         },
       },
     },
@@ -58,6 +58,8 @@ const vuetify = createVuetify({
 });
 
 const app = createApp(App);
+
+app.directive
 
 //Dependencies
 app.use(createPinia());

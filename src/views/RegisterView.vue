@@ -1,69 +1,58 @@
 <template>
   <section class="register-section">
-    <div class="register-section__content d-flex align-center flex-column">
-      <p class="register-section__content__logo">KANBAN</p>
-      <p class="register-section__content__title text-center">
+    <div class="register-section-content d-flex align-center flex-column">
+      <p class="register-section-content-logo">KANBAN</p>
+      <p class="register-section-content-title text-center">
         Everything <br />
         starts here...
       </p>
-      <p class="register-section__content__subtitle text-center">
+      <p class="register-section-content-subtitle text-center">
         And your first task is...
       </p>
       <HomeTaskComponent
-        title="Create your account and start listing tasks &#128170;"
-        :status="1"
+        home-task-title="Create your account and start listing tasks &#128170;"
+        :home-task-status="1"
       />
-      <!-- <p class="register-section__content__title">
-        Everything <br />starts here
-      </p>
-      <p class="register-section__content__subtitle">
-        Create your account and start <br />
-        listing your tasks
-      </p> -->
     </div>
-    <div class="register-section__form d-flex justify-center flex-column">
-      <p class="subtitle">Register</p>
-      <ErrorComponent
-        v-if="error.has_error"
-        :error_component_message="error.error_message"
-        class="error"
-      />
+    <div class="register-section-form d-flex justify-center flex-column">
+      <p class="register-section-form-subtitle">Register</p>
+      <ErrorComponent v-model="error.hasError" :error-sent="error.errorMessage" />
       <v-form
         ref="form"
         @submit.prevent="register(registerForm)"
         class="d-flex justify-center flex-column"
       >
         <InputComponent
-          input_label="Username"
-          :input_rules="[rules.required]"
+          input-label="Username"
+          :input-rules="[rules.required]"
           v-model="registerForm.username"
-          input_color="#ffffff"
+          input-variant="solo"
         />
         <InputComponent
-          input_label="Email"
-          :input_rules="[rules.required, rules.email]"
+          input-label="Email"
+          :input-rules="[rules.required, rules.email]"
           v-model="registerForm.email"
-          input_color="#ffffff"
+          input-variant="solo"
         />
         <InputComponent
-          input_label="Password"
-          :input_rules="[rules.required, rules.password]"
+          input-label="Password"
+          :input-rules="[rules.required, rules.password]"
           v-model="registerForm.password"
-          :input_append_inner_icon="
+          :input-append-inner-icon="
             showPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'
           "
           @click:append-inner="showPassword = !showPassword"
-          :input_type="showPassword ? 'text' : 'password'"
-          input_color="#ffffff"
+          :input-type="showPassword ? 'text' : 'password'"
+          input-variant="solo"
         />
         <InputComponent
-          input_type="password"
-          input_label="Confirm password"
-          :input_rules="[
+          input-type="password"
+          input-label="Confirm password"
+          :input-rules="[
             rules.required,
-            rules.confirm_password(registerForm.password),
+            rules.confirmPassword(registerForm.password),
           ]"
-          input_color="#ffffff"
+          input-variant="solo"
         />
         <p @click="router.push({ name: 'Login' })" style="cursor: pointer">
           Have account?
@@ -71,28 +60,29 @@
         <ButtonComponent
           button-label="Sign up"
           button-type="submit"
-          button-color="background"
-          class="submit-button"
+          class="register-section-form-submit-button"
         />
       </v-form>
-      <span class="divider d-flex align-center justify-center"
+      <span
+        class="register-section-form-divider d-flex align-center justify-center"
         ><v-divider></v-divider>or<v-divider></v-divider
       ></span>
-      <a :href="linkGoogle" class="d-flex align-center justify-center"
-        ><div class="google-button d-flex align-center justify-center">
-          <v-icon icon="fa-brands fa-google"></v-icon></div
-      ></a>
+
+      <div
+        class="register-section-form-google-button d-flex align-center justify-center"
+      >
+        <a :href="linkGoogle" class="d-flex align-center justify-center"> <v-icon icon="fa-brands fa-google"></v-icon></a>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import router from "../router/index";
 import { useUserStore } from "../stores/userStore";
+import router from "../router/index";
 import rules from "../utils/rules";
 import InputComponent from "@/components/InputComponent.vue";
-import VueCookies from "vue-cookies";
 import ButtonComponent from "@/components/ButtonComponent.vue";
 import HomeTaskComponent from "@/components/HomeTaskComponent.vue";
 import ErrorComponent from "@/components/ErrorComponent.vue";
@@ -112,8 +102,8 @@ const showPassword = ref(false);
 const linkGoogle = import.meta.env.VITE_URL_GOOGLE;
 
 const error = ref({
-  has_error: false,
-  error_message: "",
+  hasError: false,
+  errorMessage: "",
 });
 
 async function register(dataForm) {
@@ -125,17 +115,17 @@ async function register(dataForm) {
 
       localStorage.setItem("userInfo", JSON.stringify(result));
 
-      VueCookies.set("loggedIn", true);
-
       delete dataForm.email;
 
       await userStore.login(dataForm);
 
+      localStorage.setItem("loggedIn", true);
+
       router.push({ name: "Dashboard" });
     } catch (err) {
-      error.value.has_error = true;
+      error.value.hasError = true;
 
-      error.value.error_message = err.response.data.resource.message;
+      error.value.errorMessage = err.response.data.resource.message;
     }
   }
 }
@@ -144,79 +134,87 @@ async function register(dataForm) {
 <style scoped lang="scss">
 .register-section {
   display: grid;
-  grid-template-columns: 60% 40%;
+  grid-template-columns: 55% 45%;
   grid-template-rows: 100%;
+
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  font-family: $secondary-font;
-  color: #ffffff;
 
-  .subtitle {
+  font-family: $secondary-font;
+
+  color: rgb(var(--v-theme-text));
+
+  &-subtitle {
     font-size: 25px;
     font-weight: 200;
+
     margin-bottom: 30px;
   }
 
-  &__content,
-  &__form {
+  &-content,
+  &-form {
     width: 100%;
     height: 100%;
     min-height: 100vh;
   }
 
-  &__content {
+  &-content {
     padding-top: 50px;
-    background-color: #662d91;
+    background-color: rgb(var(--v-theme-attention));
+    color: #ffffff;
     gap: 30px;
-    &__logo {
+    &-logo {
       text-align: center;
       font-size: 30px;
       font-family: $primary-font;
+
       margin-bottom: 30px;
     }
-    &__title {
+    &-title {
       width: 100%;
       font-size: 45px;
     }
-    &__subtitle {
-      width: 100%;
-      font-weight: 200;
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
   }
 
-  &__form {
-    background-color: #191919;
-    padding: 50px 100px 100px 100px;
+  &-form {
+    background-color: rgb(var(--v-theme-backgroundColor));
+
+    padding: 50px 120px 100px 120px;
+
     gap: 20px;
 
     .v-form {
       gap: 10px;
-
-      .submit-button {
-        margin-top: 10px;
-      }
     }
 
-    .divider {
+    &-submit-button {
+      margin-top: 10px;
+    }
+
+    &-divider {
       gap: 15px;
     }
-  }
 
-  a {
-    color: #191919 !important;
-  }
+    &-subtitle {
+      width: 100%;
+      margin-bottom: 10px;
 
-  .google-button {
-    background-color: #ffffff;
-    width: 80px;
-    height: 50px;
-    border-radius: 5px;
-    align-self: center;
-    cursor: pointer;
-    color: #191919 !important;
+      font-weight: 200;
+      font-size: 20px;
+    }
+
+    &-google-button {
+      width: 100%;
+
+      a {
+        border-radius: 5px;
+        width: 80px;
+        height: 50px;
+        background-color: #4185f4;
+        color: #ffffff !important;
+      }
+    }
   }
 }
 </style>

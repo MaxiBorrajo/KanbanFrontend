@@ -1,10 +1,10 @@
 <template>
-  <v-text-field
-  class="default-input"
+  <v-textarea
+    class="default-textarea"
     :clearable="inputClearable"
     :label="inputLabel"
     :color="inputColor ? inputColor : 'text'"
-    :required="inputRequired"
+    :bg-color="inputBgColor ? inputBgColor : 'backgroundcolor'"
     :prepend-icon="inputPrependIcon"
     :prepend-inner-icon="inputPrependInnerIcon"
     :append-icon="inputAppendIcon"
@@ -13,11 +13,10 @@
     :density="inputDensity"
     :placeholder="inputPlaceholder"
     :rules="inputRules"
-    :type="inputType"
-    :variant="inputVariant"
+    :auto-grow="inputAutogrow"
     :autofocus="inputAutofocus"
-    :readonly="inputReadonly"
-  ></v-text-field>
+    :variant="inputVariant"
+  ></v-textarea>
 </template>
 
 <script setup>
@@ -25,8 +24,7 @@ const props = defineProps({
   inputLabel: String,
   inputPlaceholder: String,
   inputColor: String,
-  inputType: String,
-  inputRequired: Boolean,
+  inputBgColor: String,
   inputPrependIcon: String,
   inputPrependInnerIcon: String,
   inputAppendIcon: String,
@@ -35,15 +33,14 @@ const props = defineProps({
   inputDensity: String,
   inputClearable: Boolean,
   inputRules: Array,
-  inputVariant: String,
+  inputAutogrow: Boolean,
   inputAutofocus: Boolean,
-  inputReadonly: Boolean,
+  inputVariant: String,
 });
 </script>
 
 <style scoped lang="scss">
-
-.default-input {
+.default-textarea {
   font-family: $secondary-font;
 }
 </style>

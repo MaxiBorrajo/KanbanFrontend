@@ -3,9 +3,8 @@ import { ref } from "vue";
 import axios from "../config/axios";
 
 export const useUserStore = defineStore("userStore", () => {
-  //Variables
   const loginError = ref(false)
-  //Methods
+
   /**
    * Function that allows user to login
    * @param {Object} data - Object with:

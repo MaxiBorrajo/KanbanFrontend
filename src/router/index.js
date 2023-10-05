@@ -9,7 +9,6 @@ import ResetPasswordView from "../views/ResetPasswordView.vue";
 import FeedbackView from "../views/FeedbackView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import LoginView from "../views/LoginView.vue";
-import VueCookies from "vue-cookies";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,14 +18,7 @@ const router = createRouter({
       name: "Home",
       component: HomeView,
       beforeEnter: (to, from, next) => {
-        if (
-          VueCookies.isKey("loggedIn") &&
-          VueCookies.get("loggedIn")
-        ) {
-          next({ name: "Dashboard" });
-        } else {
-          next();
-        }
+        goToPathOrDefault({ name: "Dashboard" }, null, isLoggedIn(), next);
       },
     },
     {
@@ -61,7 +53,7 @@ const router = createRouter({
       component: ForgotPasswordView,
     },
     {
-      path: "/resetPassword/:token",
+      path: "/resetPassword",
       name: "ResetPassword",
       component: ResetPasswordView,
     },
@@ -82,24 +74,35 @@ const router = createRouter({
   ],
 });
 
-//Guards
+function goToPathOrDefault(path, defaultPath, condition, next) {
+  if (condition) {
+    next(path);
+  } else {
+    next(defaultPath);
+  }
+}
+
+function isLoggedIn() {
+  return JSON.parse(localStorage.getItem("loggedIn"));
+}
+
+function setLoginError(condition) {
+  const userStore = useUserStore();
+  if (condition) {
+    userStore.loginError = true;
+  }
+}
+
+function canGoToRoute(requireAuth) {
+  return !requireAuth || (requireAuth && isLoggedIn());
+}
+
 router.beforeEach(async (to, from, next) => {
   const requireAuth = to.meta.requireAuth;
 
-  const userStore = useUserStore();
+  setLoginError(!canGoToRoute(requireAuth));
 
-  if (
-    (requireAuth && !VueCookies.isKey("loggedIn")) ||
-    (requireAuth &&
-      VueCookies.isKey("loggedIn") &&
-      !VueCookies.get("loggedIn"))
-  ) {
-    next({ name: "Login" });
-
-    userStore.loginError = true;
-  } else {
-    next();
-  }
+  goToPathOrDefault(null, { name: "Login" }, canGoToRoute(requireAuth), next);
 });
 
 export default router;

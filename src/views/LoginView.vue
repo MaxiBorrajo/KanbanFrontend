@@ -1,33 +1,29 @@
 <template>
   <section class="login-section">
-    <div class="login-section__form d-flex justify-center flex-column">
-      <p class="subtitle">Login</p>
-      <ErrorComponent
-        v-if="error.has_error"
-        :error_component_message="error.error_message"
-        class="error"
-      />
+    <div class="login-section-form d-flex justify-center flex-column">
+      <p class="login-section-form-subtitle">Login</p>
+      <ErrorComponent v-model="error.hasError" :error-sent="error.errorMessage" />
       <v-form
         ref="form"
         @submit.prevent="login(loginForm)"
         class="d-flex justify-center flex-column"
       >
         <InputComponent
-          input_label="Email/Username"
-          :input_rules="[rules.required]"
+          input-label="Email/Username"
+          :input-rules="[rules.required]"
           v-model="loginForm.username"
-          input_color="#ffffff"
+          input-variant="solo"
         />
         <InputComponent
-          input_label="Password"
-          :input_rules="[rules.required, rules.password]"
+          input-label="Password"
+          :input-rules="[rules.required, rules.password]"
           v-model="loginForm.password"
-          :input_append_inner_icon="
+          :input-append-inner-icon="
             showPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'
           "
           @click:append-inner="showPassword = !showPassword"
-          :input_type="showPassword ? 'text' : 'password'"
-          input_color="#ffffff"
+          :input-type="showPassword ? 'text' : 'password'"
+          input-variant="solo"
         />
         <p
           @click="router.push({ name: 'ForgotPassword' })"
@@ -38,40 +34,41 @@
         <ButtonComponent
           button-label="Sign in"
           button-type="submit"
-          button-color="background"
-          class="submit-button"
+          class="login-section-form-submit-button"
         />
       </v-form>
-      <span class="divider d-flex align-center justify-center"
+      <span
+        class="login-section-form-divider d-flex align-center justify-center"
         ><v-divider></v-divider>or<v-divider></v-divider
       ></span>
-      <a :href="linkGoogle" class="d-flex align-center justify-center"
-        ><div class="google-button d-flex align-center justify-center">
+      <div
+        class="login-section-form-google-button d-flex align-center justify-center"
+      >
+        <a :href="linkGoogle" class="d-flex align-center justify-center">
           <v-icon icon="fa-brands fa-google"></v-icon>
-        </div>
-      </a>
+        </a>
+      </div>
     </div>
-    <div class="login-section__content d-flex align-center flex-column">
-      <p class="login-section__content__logo">KANBAN</p>
-      <p class="login-section__content__title text-center">
+    <div class="login-section-content d-flex align-center flex-column">
+      <p class="login-section-content-logo">KANBAN</p>
+      <p class="login-section-content-title text-center">
         Welcome <br />
         back!
       </p>
-      <p class="login-section__content__subtitle text-center">
+      <p class="login-section-content-subtitle text-center">
         We are glad to see you again
       </p>
       <HomeTaskComponent
-        title="Don't have account yet &#128546;? CLICK!"
-        :status="2"
+        home-task-title="Don't have account yet &#128546;? CLICK!"
+        :home-task-status="2"
         @click="router.push({ name: 'Register' })"
         style="cursor: pointer"
       />
-      <!-- Snackbar component -->
       <SnackbarComponent
         v-model="openSnackbar"
-        :snackbar_timeout="3000"
-        :snackbar_multiline="true"
-        snackbar_text="Login required"
+        :snackbar-timeout="3000"
+        :snackbar-multiline="true"
+        snackbar-text="Login required"
       />
     </div>
   </section>
@@ -79,11 +76,10 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import router from "../router/index";
 import { useUserStore } from "../stores/userStore";
+import router from "../router/index";
 import rules from "../utils/rules";
 import InputComponent from "@/components/InputComponent.vue";
-import VueCookies from "vue-cookies";
 import ButtonComponent from "@/components/ButtonComponent.vue";
 import HomeTaskComponent from "@/components/HomeTaskComponent.vue";
 import ErrorComponent from "@/components/ErrorComponent.vue";
@@ -104,8 +100,8 @@ const showPassword = ref(false);
 const linkGoogle = import.meta.env.VITE_URL_GOOGLE;
 
 const error = ref({
-  has_error: false,
-  error_message: "",
+  hasError: false,
+  errorMessage: "",
 });
 
 const openSnackbar = ref(false);
@@ -119,20 +115,17 @@ async function login(dataForm) {
 
       localStorage.setItem("userInfo", JSON.stringify(result));
 
-      VueCookies.set("loggedIn", true);
+      localStorage.setItem("loggedIn", true);
 
       router.push({ name: "Dashboard" });
     } catch (err) {
-      error.value.has_error = true;
+      error.value.hasError = true;
 
-      error.value.error_message = err.response.data.resource.message;
+      error.value.errorMessage = err.response.data.resource.message;
     }
   }
 }
 
-//Lifehooks
-
-/*Lifehook in charge of managing a not logged user error */
 onMounted(() => {
   openSnackbar.value = userStore.loginError;
 
@@ -143,41 +136,42 @@ onMounted(() => {
 <style scoped lang="scss">
 .login-section {
   display: grid;
-  grid-template-columns: 40% 60%;
+  grid-template-columns: 45% 55%;
   grid-template-rows: 100%;
+
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  font-family: $secondary-font;
-  color: #ffffff;
-  .subtitle {
-    font-size: 25px;
-    font-weight: 200;
-    margin-bottom: 30px;
-  }
 
-  &__content,
-  &__form {
+  font-family: $secondary-font;
+
+  color: rgb(var(--v-theme-text));
+
+  &-content,
+  &-form {
     width: 100%;
     height: 100%;
     min-height: 100vh;
   }
 
-  &__content {
+  &-content {
     padding-top: 50px;
-    background-color: #191919;
+
+    background-color: rgb(var(--v-theme-attention));
+    color: #ffffff;
     gap: 30px;
-    &__logo {
+
+    &-logo {
       text-align: center;
       font-size: 30px;
       font-family: $primary-font;
       margin-bottom: 30px;
     }
-    &__title {
+    &-title {
       width: 100%;
       font-size: 45px;
     }
-    &__subtitle {
+    &-subtitle {
       width: 100%;
       font-weight: 200;
       font-size: 20px;
@@ -185,34 +179,41 @@ onMounted(() => {
     }
   }
 
-  &__form {
-    background-color: #662d91;
-    padding: 50px 100px 100px 100px;
+  &-form {
+    background-color: rgb(var(--v-theme-backgroundColor));
+    padding: 50px 120px 100px 120px;
     gap: 20px;
-
+    
     .v-form {
       gap: 15px;
-
-      .submit-button {
-        margin-top: 10px;
-      }
     }
 
-    .divider {
+    &-submit-button {
+      margin-top: 10px;
+    }
+
+    &-divider {
       gap: 15px;
     }
-  }
 
-  a {
-    color: #191919 !important;
-  }
-  .google-button {
-    background-color: #ffffff;
-    width: 80px;
-    height: 50px;
-    border-radius: 5px;
-    align-self: center;
-    cursor: pointer;
+    &-subtitle {
+      font-size: 25px;
+      font-weight: 200;
+
+      margin-bottom: 30px;
+    }
+
+    &-google-button {
+      width: 100%;
+
+      a {
+        border-radius: 5px;
+        width: 80px;
+        height: 50px;
+        background-color: #4185f4;
+        color: #ffffff !important;
+      }
+    }
   }
 }
 </style>

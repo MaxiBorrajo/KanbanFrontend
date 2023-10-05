@@ -1,38 +1,32 @@
 <template>
-  <!-- Error component -->
-  <v-alert type="error" title="Something went wrong">
-    {{ error_message }}
-  </v-alert>
+  <v-dialog width="auto" scroll-strategy="none">
+    <v-alert type="error" title="Something went wrong" class="error-component">
+      {{ errorMessage }}
+    </v-alert>
+  </v-dialog>
 </template>
 
 <script setup>
-//Imports
 import { computed } from "vue";
 
-//Variables
 const props = defineProps({
-  error_component_message: String,
+  errorSent: String,
 });
 
-const error_message = computed(() => {
-  return props.error_component_message.replace(
-    "Something went wrong. Error: ",
-    ""
-  );
+const errorMessage = computed(() => {
+  return props.errorSent.replace("Something went wrong. Error: ", "");
 });
 </script>
 
 <style scoped lang="scss">
-.v-alert {
-  //Size
+.error-component {
+  font-family: $secondary-font;
   width: 100%;
+  padding: 25px;
 }
 
-//Media queries
 @media only screen and (min-width: 480px) {
-  //Error component style
-  .v-alert {
-    //Size
+  .error-component {
     max-width: 480px;
   }
 }

@@ -1,5 +1,4 @@
 <template>
-  <!-- Button component -->
   <v-btn
     v-ripple
     :variant="buttonVariant"
@@ -10,16 +9,16 @@
     :icon="buttonIcon"
     :append-icon="buttonAppendIcon"
     :prepend-icon="buttonPrependIcon"
-    :width="button_width"
-    :height="button_height"
-    :disabled="button_disabled"
-    class="d-flex justify-center align-center"
+    :width="buttonWidth"
+    :height="buttonHeight"
+    :disabled="buttonDisabled"
+    class="d-flex justify-center align-center default-button"
     >{{ buttonLabel }}</v-btn
   >
 </template>
 
 <script setup>
-//Variables
+
 const props = defineProps({
   buttonLabel: String,
   buttonColor: String,
@@ -30,17 +29,15 @@ const props = defineProps({
   buttonAppendIcon: String,
   buttonPrependIcon: String,
   buttonVariant: String,
-  button_width: Number,
-  button_height: Number,
-  button_disabled: Boolean,
+  buttonWidth: Number,
+  buttonHeight: Number,
+  buttonDisabled: Boolean,
   buttonRounded: Number
 });
 </script>
 
 <style scoped lang="scss">
-/*Button's style */
-.v-btn {
-  /*Font style */
+.default-button {
   font-family: $secondary-font;
 }
 </style>

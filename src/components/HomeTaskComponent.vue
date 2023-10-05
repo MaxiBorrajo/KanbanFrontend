@@ -1,25 +1,25 @@
 <template>
   <div class="home-task d-flex justify-center flex-column">
-    <div class="status d-flex align-center">
-      <span class="status-circle" :class="objectStatus"></span
+    <div class="home-task-status d-flex align-center">
+      <span class="home-task-status-circle" :class="objectStatus"></span
       >{{ objectStatus }}
     </div>
-    <p class="title">
-      {{ title }}
+    <p class="home-task-title">
+      {{ homeTaskTitle }}
     </p>
-</div>
+  </div>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 
 const props = defineProps({
-  title: String,
-  status: Number,
+  homeTaskTitle: String,
+  homeTaskStatus: Number,
 });
 
 const objectStatus = computed(() => {
-  switch (props.status) {
+  switch (props.homeTaskStatus) {
     case 1:
       return "ToDo";
 
@@ -37,31 +37,42 @@ const objectStatus = computed(() => {
   width: 350px;
   max-height: 60px;
   height: auto;
-  border-radius: 10px;
-  background-color: #191919;
-  color: #ffffff;
   padding: 10px 15px 15px 15px;
-  gap:5px;
+
+  border-radius: 10px;
   border: 1px solid #ffffff;
-  .status {
+
+  background-color: #1a1919;
+  color: #ffffff;
+
+  gap: 5px;
+
+  &-status {
     width: 100%;
+
     gap: 5px;
+
     font-size: 8px;
     font-family: $secondary-font;
     font-weight: 200;
-    .status-circle {
+
+    &-circle {
       border-radius: 50%;
+
       width: 10px;
       height: 10px;
     }
   }
-  .title {
+
+  &-title {
     width: 100%;
+
     font-size: 12px;
     font-family: $secondary-font;
     font-weight: 300;
-    margin-left: 10px;
     line-height: 1;
+
+    margin-left: 10px;
   }
 }
 

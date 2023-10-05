@@ -1,51 +1,52 @@
-//Form validation rules
+function sendMessageIfConditionNotMet(condition, message) {
+  if (!condition) {
+    return message;
+  }
+  return condition;
+}
+
 const rules = {
-  //Email rules
   email: (value) => {
-    const regular_expression_email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const regularExpressionEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!regular_expression_email.test(value)) return "E-mail must be valid.";
-
-    return true;
+    return sendMessageIfConditionNotMet(
+      regularExpressionEmail.test(value),
+      "E-mail must be valid."
+    );
   },
-  //Confirm password rules
-  confirm_password: (password) => (value) => {
-    if (value !== password) return "Passwords don't match";
-
-    return true;
+  confirmPassword: (password) => (value) => {
+    return sendMessageIfConditionNotMet(
+      value === password,
+      "Passwords don't match"
+    );
   },
-  //Password rules
   password: (value) => {
-    const regular_expression_password =
+    const regularExpressionPassword =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-    if (!regular_expression_password.test(value))
-      return "Password field must have, at least, one lowercase letter, one uppercase letter, one digit, one special character, and be 8 characters or longer.";
-
-    return true;
+    return sendMessageIfConditionNotMet(
+      regularExpressionPassword.test(value),
+      "Password field must have, at least, one lowercase letter, one uppercase letter, one digit, one special character, and be 8 characters or longer."
+    );
   },
-  //Is required rule
   required: (value) => {
-    if (!value && value !== 0) {
-      return "This field is required.";
-    }
-    return true;
+    return sendMessageIfConditionNotMet(
+      Boolean(value || value === 0),
+      "This field is required."
+    );
   },
-  //Maximum value of input rule
-  maximum_value: (maximum_value) => (value) => {
-    if (value > maximum_value) {
-      return `The maximum value allowed is ${maximum_value}`;
-    }
-    return true;
+  maximumValue: (maximumValue) => (value) => {
+    return sendMessageIfConditionNotMet(
+      value < maximumValue,
+      `The maximum value allowed is ${maximumValue}`
+    );
   },
-  //Minimum value of input rule
-  minimum_value: (minimum_value) => (value) => {
-    if (value < minimum_value) {
-      return `The minimun value allowed is ${minimum_value}`;
-    }
-    return true;
+  minimumValue: (minimumValue) => (value) => {
+    return sendMessageIfConditionNotMet(
+      value > minimumValue,
+      `The minimun value allowed is ${minimumValue}`
+    );
   },
 };
 
-//Exports
 export default rules;

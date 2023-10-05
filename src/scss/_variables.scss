@@ -1,10 +1,40 @@
-//Variables
-$primary-font: 'Archivo Black', sans-serif;
-$secondary-font: 'Poppins', sans-serif;
+$primary-font: "Archivo Black", sans-serif;
+$secondary-font: "Poppins", sans-serif;
 
-//Body style
 body {
   width: 100%;
   height: auto;
   min-height: 100vh;
+}
+
+.v-list-item-title {
+  font-family: $secondary-font !important;
+  font-size: 1rem !important;
+  font-weight: 400 !important;
+}
+
+.input .v-field__input {
+  padding-left: 15px !important;
+}
+
+.input .v-label {
+  padding-left: 10px !important;
+}
+
+.v-navigation-drawer .v-navigation-drawer__content::-webkit-scrollbar {
+  background-color: transparent;
+  width: 0;
+}
+
+.v-navigation-drawer .v-navigation-drawer__content::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.v-overlay__scrim{
+  background-color: rgb(var(--v-theme-backgroundColor))!important;
+}
+
+.bg-error {
+  background-color: #bd0404 !important;
+  color: rgb(var(--v-theme-on-error)) !important;
 }
