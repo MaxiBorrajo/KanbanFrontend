@@ -90,7 +90,7 @@ onBeforeMount(async () => {
   height: auto;
   min-height: 100vh;
 
-  background-image: url("hero-section-kanban-background.svg");
+  background-image: url("./assets/hero-section-kanban-background.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
