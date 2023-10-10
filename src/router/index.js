@@ -9,6 +9,7 @@ import ResetPasswordView from "../views/ResetPasswordView.vue";
 import FeedbackView from "../views/FeedbackView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import LoginView from "../views/LoginView.vue";
+import VueCookies from "vue-cookies";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -83,7 +84,7 @@ function goToPathOrDefault(path, defaultPath, condition, next) {
 }
 
 function isLoggedIn() {
-  return JSON.parse(localStorage.getItem("loggedIn"));
+  return VueCookies.get("Authorization");
 }
 
 function setLoginError(condition) {

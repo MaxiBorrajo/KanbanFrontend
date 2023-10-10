@@ -17,7 +17,7 @@
             :title="user.username"
             nav
             @click="router.push({ name: 'Profile' })"
-            style="cursor: pointer;"
+            style="cursor: pointer"
             class="avatar"
           >
           </v-list-item>
@@ -25,11 +25,11 @@
             v-else
             @click="router.push({ name: 'Profile' })"
             class="d-flex justify-center align-center flex-column drawer-profile-section text-center"
-            style="cursor: pointer;"
+            style="cursor: pointer"
           >
             <v-avatar :image="user.urlProfilePhoto" size="70"></v-avatar>
             <p>{{ user.username }}</p>
-        </div>
+          </div>
 
           <v-divider></v-divider>
 
@@ -101,6 +101,7 @@ import { useTheme } from "vuetify";
 import router from "../router";
 import TableView from "@/views/TableView.vue";
 import InputComponent from "@/components/InputComponent.vue";
+import VueCookies from "vue-cookies";
 
 const tableStore = useTableStore();
 
@@ -139,8 +140,8 @@ function closeTableCreator() {
   showTableCreator.value = false;
 }
 
-function tableTitleIsEmpty(){
-  return tableForm.value.tableName === ""
+function tableTitleIsEmpty() {
+  return tableForm.value.tableName === "";
 }
 
 async function createTable() {
@@ -150,7 +151,7 @@ async function createTable() {
     const result = await tableStore.createTable(tableForm.value);
 
     if (result) {
-      await initializeView()
+      await initializeView();
     }
   }
 }
@@ -160,7 +161,7 @@ async function logout() {
     const result = await userStore.logout();
 
     if (result) {
-      localStorage.removeItem("loggedIn");
+      VueCookies.remove("Authorization");
       router.push({ name: "Login" });
     }
   } catch (err) {
@@ -192,11 +193,11 @@ function getActualTable() {
 
 async function tableWasDeleted() {
   localStorage.removeItem("lastTableSaved");
-  await initializeView()
+  await initializeView();
 }
 
 async function initializeView() {
-  theme.global.name.value = user.value.theme
+  theme.global.name.value = user.value.theme;
 
   await getTablesOfUser();
 
@@ -221,7 +222,7 @@ onBeforeMount(async () => {
 
   position: relative;
 
-  .avatar{
+  .avatar {
     padding-bottom: 13px;
     padding-left: 7.5px;
   }
@@ -236,9 +237,8 @@ onBeforeMount(async () => {
     .v-avatar {
       margin-bottom: 10px;
       border: 2px solid rgb(var(--v-theme-softAttention));
-      
     }
-    p{
+    p {
       font-size: 15px;
     }
   }
@@ -251,7 +251,7 @@ onBeforeMount(async () => {
     opacity: 10%;
   }
 
-  .createButton{
+  .createButton {
     padding: 10px 16px;
   }
 

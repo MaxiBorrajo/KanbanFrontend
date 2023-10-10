@@ -115,8 +115,6 @@ async function login(dataForm) {
 
       localStorage.setItem("userInfo", JSON.stringify(result));
 
-      localStorage.setItem("loggedIn", true);
-
       router.push({ name: "Dashboard" });
     } catch (err) {
       error.value.hasError = true;

@@ -119,8 +119,6 @@ async function register(dataForm) {
 
       await userStore.login(dataForm);
 
-      localStorage.setItem("loggedIn", true);
-
       router.push({ name: "Dashboard" });
     } catch (err) {
       error.value.hasError = true;

@@ -61,8 +61,6 @@ async function handleLoginFromGoogle() {
 
   localStorage.setItem("userInfo", JSON.stringify(user));
 
-  localStorage.setItem("loggedIn", true);
-
   router.push({ name: "Dashboard" });
 }
 
