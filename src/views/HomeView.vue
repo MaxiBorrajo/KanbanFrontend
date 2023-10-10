@@ -53,10 +53,13 @@ import { useUserStore } from "../stores/userStore";
 import ButtonComponent from "@/components/ButtonComponent.vue";
 import HomeTaskComponent from "@/components/HomeTaskComponent.vue";
 import router from "../router";
+import VueCookies from "vue-cookies";
 
 const route = useRoute();
 
 async function handleLoginFromGoogle() {
+  VueCookies.set("Authorization", route.query.token, "7d");
+
   const user = await getActualUser();
 
   localStorage.setItem("userInfo", JSON.stringify(user));
@@ -70,8 +73,8 @@ async function getActualUser() {
   return await userStore.getActualUser();
 }
 
-function loginWithGoogle(){
-  return route.query.googleRedirect
+function loginWithGoogle() {
+  return route.query.googleRedirect;
 }
 
 onBeforeMount(async () => {
