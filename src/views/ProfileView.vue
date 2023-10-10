@@ -107,6 +107,7 @@ import ErrorComponent from "@/components/ErrorComponent.vue";
 import InputComponent from "@/components/InputComponent.vue";
 import ButtonComponent from "@/components/ButtonComponent.vue";
 import DialogComponent from "@/components/DialogComponent.vue";
+import VueCookies from "vue-cookies";
 
 const newUserInfo = ref(new FormData());
 
@@ -206,6 +207,7 @@ async function deleteAccount() {
     const result = await userStore.deleteUser();
 
     if (result) {
+      VueCookies.remove("Authorization");
       localStorage.clear();
       router.push({ name: "Login" });
     }
