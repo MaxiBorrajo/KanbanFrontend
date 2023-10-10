@@ -323,9 +323,9 @@ watch(props, async () => {
 });
 
 watch(tasks, async (newValue, oldValue) => {
-  
   await checkChangeInOrderOfTasks(newValue);
   await checkChangeInStatusBetweenTasks(oldValue, newValue);
+  await getCountOfTasks();
 });
 
 onBeforeMount(async () => {
