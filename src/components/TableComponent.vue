@@ -100,7 +100,7 @@ const taskStore = useTaskStore();
 const props = defineProps({
   tableStatus: Number,
   tableId: String,
-  tableWasDeleted:Boolean
+  tableWasDeleted: Boolean,
 });
 
 const emit = defineEmits(["error"]);
@@ -264,6 +264,8 @@ async function getActualUser() {
   try {
     const result = await userStore.getActualUser();
 
+    localStorage.setItem("userInfo", result);
+
     user.value = result;
   } catch (err) {
     error.value.hasError = true;
@@ -419,6 +421,7 @@ onBeforeMount(async () => {
     width: 100%;
     height: 100%;
     max-height: 430px;
+    overflow-y: scroll;
 
     background-color: rgb(var(--v-theme-backgroundColor));
 
@@ -439,8 +442,6 @@ onBeforeMount(async () => {
     background-color: rgb(var(--v-theme-softAttention));
 
     border-radius: 20px;
-    border-top: 15px solid rgb(var(--v-theme-backgroundColor));
-    border-bottom: 15px solid rgb(var(--v-theme-backgroundColor));
   }
 
   &-tasks::-webkit-scrollbar-thumb:hover {
